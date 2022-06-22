@@ -21,8 +21,15 @@ public class MatchingFacade {
     @GET
     @Path("/classic/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> matchOpponents(@PathParam("userId") String userId) {
-        return opponentsService.matchOpponents(userId);
+    public List<User> matchOpponentsClassic(@PathParam("userId") String userId) {
+        return opponentsService.matchOpponentsClassic(userId);
+    }
+
+    @GET
+    @Path("/ranked/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<User> matchOpponentsRanked(@PathParam("userId") String userId) {
+        return opponentsService.matchOpponentsRanked(userId);
     }
 
 }

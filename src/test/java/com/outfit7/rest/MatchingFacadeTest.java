@@ -33,7 +33,7 @@ public class MatchingFacadeTest {
         String userId = "some-user-id";
         List<User> opponents = users();
 
-        given(opponentsService.matchOpponents(eq(userId)))
+        given(opponentsService.matchOpponentsClassic(eq(userId)))
                 .willReturn(opponents);
 
         // When
