@@ -33,7 +33,7 @@ class OpponentsServiceTest {
                 .willReturn(users());
 
         // When
-        List<User> opponents = opponentsService.matchOpponents(userId);
+        List<User> opponents = opponentsService.matchOpponentsClassic(userId);
 
         // Then
         assertThat(opponents)

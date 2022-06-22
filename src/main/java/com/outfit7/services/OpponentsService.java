@@ -16,9 +16,17 @@ public class OpponentsService {
     @Inject
     ClassicMatchingService classicMatchingService;
 
-    public List<User> matchOpponents(String userId) {
+    @Inject
+    RankedMatchingService rankedMatchingService;
+
+    public List<User> matchOpponentsClassic(String userId) {
         log.info("Running classic matcher for userId: '{}'", userId);
         return classicMatchingService.retrieveOpponents(userId);
+    }
+
+    public List<User> matchOpponentsRanked(String userId) {
+        log.info("Running classic matcher for userId: '{}'", userId);
+        return rankedMatchingService.retrieveOpponents(userId);
     }
 
 }
