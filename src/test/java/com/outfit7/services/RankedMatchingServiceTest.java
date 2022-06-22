@@ -25,25 +25,24 @@ public class RankedMatchingServiceTest {
     UserService userService;
 
     @InjectMocks
-    ClassicMatchingService classicMatchingService;
+    RankedMatchingService rankedMatchingService;
 
     @Test
     void shouldRetrieveOpponentsForUserId() {
         // Given
-        String userId = "some-user-id";
+        String userId = "d7fc5c61-ac15-48ca-9b14-f3d8f55b1946";
         given(userService.get(eq(userId)))
                 .willReturn(user());
         given(userService.getAll())
                 .willReturn(users());
 
         // When
-        List<User> opponents = classicMatchingService.retrieveOpponents(userId);
-
+        List<User> opponents1 = rankedMatchingService.retrieveOpponents(userId);
+        List<User> opponents2 = rankedMatchingService.retrieveOpponents(userId);
         // Then
         // Changed a few values (removed no. 6) - second assignment
-        assertThat(opponents)
-                .hasSize(3)
-                .extracting(User::getId)
-                .containsExactly("2", "3", "5");
+        assertThat(opponents1)
+                .hasSize(5)
+                .isNotSameAs(opponents2);
     }
 }

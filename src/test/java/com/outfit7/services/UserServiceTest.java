@@ -38,6 +38,7 @@ class UserServiceTest {
         User expectedUser = User.builder()
                 .id(userId)
                 .playerName("Vedast Swiftfoot")
+                .rank(14L)
                 .powerLevel(2L)
                 .hero(Hero.builder()
                         .id("ea243b0a-f225-4835-907e-887d5f202a23")
