@@ -25,21 +25,17 @@ class RankedMatchingServiceTest {
     UserService userService;
 
     @InjectMocks
-    OpponentsService opponentServ;
+    RankedMatchingService classicMatchingService;
 
     @Test
-    void shouldRetrieveOpponentsForUserIdRanked() {
+    void shouldRetrieveOpponentsForUserId() {
         // Given
-        String uId = "d7fc5c61-ac15-48ca-9b14-f3d8f55b1946";
+        String userId = "d7fc5c61-ac15-48ca-9b14-f3d8f55b1946";
 
         // When
-        List<User> opponents = opponentServ.matchOpponentsRanked(uId);
+        List<User> opponents = classicMatchingService.retrieveOpponents(userId);
 
         // Then
         // Changed a few values (removed no. 6) - second assignment
-        assertThat(opponents)
-                .hasSize(5);
     }
-
-
 }

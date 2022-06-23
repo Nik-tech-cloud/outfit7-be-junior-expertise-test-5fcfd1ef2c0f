@@ -1,22 +1,21 @@
 package com.outfit7.services;
 
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Random;
-        import java.util.Set;
-        import java.util.concurrent.ConcurrentHashMap;
-        import java.util.function.Function;
-        import java.util.function.Predicate;
-        import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
-        import javax.enterprise.context.ApplicationScoped;
-        import javax.inject.Inject;
+import com.outfit7.entity.User;
 
-        import com.outfit7.entity.User;
+import com.outfit7.entity.exception.NotEnoughUsersFoundException;
 
-        import com.outfit7.entity.exception.EntityNotFoundException;
-        import com.outfit7.entity.exception.NotEnoughUsersFoundException;
-        import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
@@ -26,12 +25,13 @@ public class RankedMatchingService {
     UserService userService;
 
     public List<User> retrieveOpponents(String userId) {
+        //userService = new UserService();
         User currentUser = userService.get(userId);
         log.debug("Found user: '{}'", currentUser);
-        return matchOpponents(currentUser);
+        return matchOpponents5(currentUser);
     }
 
-    private List<User> matchOpponents(User currentUser) {
+    private List<User> matchOpponents5(User currentUser) {
         // get all opponents by rank
         List<User> opponents =  userService.getAll().stream()
                 .filter(opponent -> !opponent.getId().equals(currentUser.getId()))
@@ -42,12 +42,12 @@ public class RankedMatchingService {
 
         // choose 5 at random if possible
         if (opponents.size() < 5)
-            throw new NotEnoughUsersFoundException("No players in your rank.");
+            throw new NotEnoughUsersFoundException("Not enough players found in your rank");
 
         return randomFive(opponents);
     }
 
-    private List<User> randomFive(List<User> oponents) {
+    private static List<User> randomFive(List<User> oponents) {
         Random random = new Random();
         List<User> chosenOpponents = new ArrayList<>();
         while(chosenOpponents.size() != 5) {
