@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import com.outfit7.entity.User;
 
+import com.outfit7.entity.exception.EntityNotFoundException;
 import com.outfit7.entity.exception.NotEnoughUsersFoundException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class RankedMatchingService {
 
         // choose 5 at random if possible
         if (opponents.size() < 5)
-            throw new NotEnoughUsersFoundException("Not enough players found in your rank");
+            throw new NotEnoughUsersFoundException("There aren't any players with rank similar enough.");
 
         return randomFive(opponents);
     }
