@@ -25,13 +25,13 @@ public class RankedMatchingService {
     UserService userService;
 
     public List<User> retrieveOpponents(String userId) {
-        //userService = new UserService();
+        userService = new UserService();
         User currentUser = userService.get(userId);
         log.debug("Found user: '{}'", currentUser);
-        return matchOpponents5(currentUser);
+        return matchOpponents5(currentUser, userService);
     }
 
-    private List<User> matchOpponents5(User currentUser) {
+    private List<User> matchOpponents5(User currentUser, UserService userService) {
         // get all opponents by rank
         List<User> opponents =  userService.getAll().stream()
                 .filter(opponent -> !opponent.getId().equals(currentUser.getId()))
