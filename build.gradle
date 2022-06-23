@@ -34,10 +34,13 @@ compileJava {
 compileTestJava {
     options.encoding = 'UTF-8'
 }
+tasks.withType(Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
-
 

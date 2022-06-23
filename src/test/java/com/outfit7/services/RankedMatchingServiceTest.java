@@ -19,30 +19,27 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.outfit7.entity.User;
 
 @ExtendWith(MockitoExtension.class)
-public class RankedMatchingServiceTest {
+class RankedMatchingServiceTest {
 
     @Mock
     UserService userService;
 
     @InjectMocks
-    RankedMatchingService rankedMatchingService;
+    OpponentsService opponentServ;
 
     @Test
-    void shouldRetrieveOpponentsForUserId() {
+    void shouldRetrieveOpponentsForUserIdRanked() {
         // Given
-        String userId = "d7fc5c61-ac15-48ca-9b14-f3d8f55b1946";
-        given(userService.get(eq(userId)))
-                .willReturn(user());
-        given(userService.getAll())
-                .willReturn(users());
+        String uId = "d7fc5c61-ac15-48ca-9b14-f3d8f55b1946";
 
         // When
-        List<User> opponents1 = rankedMatchingService.retrieveOpponents(userId);
-        List<User> opponents2 = rankedMatchingService.retrieveOpponents(userId);
+        List<User> opponents = opponentServ.matchOpponentsRanked(uId);
+
         // Then
         // Changed a few values (removed no. 6) - second assignment
-        assertThat(opponents1)
-                .hasSize(5)
-                .isNotSameAs(opponents2);
+        assertThat(opponents)
+                .hasSize(5);
     }
+
+
 }

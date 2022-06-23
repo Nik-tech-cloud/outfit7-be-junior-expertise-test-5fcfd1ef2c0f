@@ -15,6 +15,7 @@ package com.outfit7.services;
         import com.outfit7.entity.User;
 
         import com.outfit7.entity.exception.EntityNotFoundException;
+        import com.outfit7.entity.exception.NotEnoughUsersFoundException;
         import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -32,7 +33,7 @@ public class RankedMatchingService {
 
     private List<User> matchOpponents(User currentUser) {
         // get all opponents by rank
-        List<User> oponents =  userService.getAll().stream()
+        List<User> opponents =  userService.getAll().stream()
                 .filter(opponent -> !opponent.getId().equals(currentUser.getId()))
                 .filter(distinctByKey(User::getId))
                 .filter(distinctByName(User::getPlayerName))
@@ -40,23 +41,21 @@ public class RankedMatchingService {
                 .collect(Collectors.toList());
 
         // choose 5 at random if possible
-        if (oponents.size() > 5) {
-            oponents = randomFive(oponents);
-        } else if (oponents.size() < 5) {
-            return null;
-        }
-        return oponents;
+        if (opponents.size() < 5)
+            throw new NotEnoughUsersFoundException("No players in your rank.");
+
+        return randomFive(opponents);
     }
 
     private List<User> randomFive(List<User> oponents) {
         Random random = new Random();
-        List<User> chosenOponents = new ArrayList<>();
-        while(chosenOponents.size() < 5) {
+        List<User> chosenOpponents = new ArrayList<>();
+        while(chosenOpponents.size() != 5) {
             int chosen = random.nextInt(oponents.size());
-            chosenOponents.add(oponents.get(chosen));
+            chosenOpponents.add(oponents.get(chosen));
             oponents.remove(chosen);
         }
-        return chosenOponents;
+        return chosenOpponents;
     }
 
     private static Predicate<User> filterByRank(User currentUser) {
